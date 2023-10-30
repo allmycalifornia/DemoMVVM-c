@@ -19,10 +19,10 @@ class AppCoordinator {
     }
     
     func start() {
-        let itemsViewController = FirstViewController()
-        itemsViewController.viewModel = itemsViewModel
-        itemsViewController.coordinator = self
-        navigationController.pushViewController(itemsViewController, animated: false)
+        let firstViewController = FirstViewController()
+        firstViewController.viewModel = itemsViewModel
+        firstViewController.coordinator = self
+        navigationController.pushViewController(firstViewController, animated: false)
     }
     
     func showSecondScreen() {
