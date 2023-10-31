@@ -10,7 +10,7 @@ import UIKit
 class AppCoordinator {
     let window: UIWindow
     let navigationController: UINavigationController
-    let itemsViewModel = FirstViewModel()
+    let firstViewModel = FirstViewModel()
     
     init(window: UIWindow) {
         self.window = window
@@ -20,7 +20,7 @@ class AppCoordinator {
     
     func start() {
         let firstViewController = FirstViewController()
-        firstViewController.viewModel = itemsViewModel
+        firstViewController.viewModel = firstViewModel
         firstViewController.coordinator = self
         navigationController.pushViewController(firstViewController, animated: false)
     }

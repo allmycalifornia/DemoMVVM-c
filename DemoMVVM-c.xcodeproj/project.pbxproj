@@ -129,17 +129,25 @@
 		8EBB0A752AEFC4DE00A82886 /* DemoMVVM-c */ = {
 			isa = PBXGroup;
 			children = (
+				8EE5BFD92AEFDDAD00F8520B /* App */,
 				8E0221772AEFCAF700B56696 /* Coordinators */,
 				8E0221762AEFCAE600B56696 /* Views */,
 				8E0221752AEFCADD00B56696 /* ViewModels */,
 				8E0221722AEFCA3300B56696 /* Model */,
+			);
+			path = "DemoMVVM-c";
+			sourceTree = "<group>";
+		};
+		8EE5BFD92AEFDDAD00F8520B /* App */ = {
+			isa = PBXGroup;
+			children = (
 				8EBB0A762AEFC4DE00A82886 /* AppDelegate.swift */,
 				8EBB0A782AEFC4DE00A82886 /* SceneDelegate.swift */,
 				8EBB0A7F2AEFC4E000A82886 /* Assets.xcassets */,
 				8EBB0A812AEFC4E000A82886 /* LaunchScreen.storyboard */,
 				8EBB0A842AEFC4E000A82886 /* Info.plist */,
 			);
-			path = "DemoMVVM-c";
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -416,7 +424,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JVA85S2MQ8;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DemoMVVM-c/Info.plist";
+				INFOPLIST_FILE = "DemoMVVM-c/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "DemoMVVM-c";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -450,7 +458,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JVA85S2MQ8;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DemoMVVM-c/Info.plist";
+				INFOPLIST_FILE = "DemoMVVM-c/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "DemoMVVM-c";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
