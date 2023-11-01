@@ -146,7 +146,7 @@ class SecondViewController: UIViewController {
         
         // LetRegisterButton
         letRegisterButton.setTitle("Зарегистрируйтесь", for: .normal)
-        let registerButtonText = "  Зарегистрируйтесь"
+        let registerButtonText = "Зарегистрируйтесь"
         let registerAttributedText = NSMutableAttributedString(string: registerButtonText)
         registerAttributedText.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, registerButtonText.count))
         letRegisterButton.setAttributedTitle(registerAttributedText, for: .normal)
@@ -159,14 +159,14 @@ class SecondViewController: UIViewController {
         }
         
         // noAccount Label
-        noAccountLabel.text = "У вас нет аккаунта?  "
+        noAccountLabel.text = "У вас нет аккаунта?"
         noAccountLabel.textColor = .black
         noAccountLabel.textAlignment = .right
         noAccountLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         view.addSubview(noAccountLabel)
         noAccountLabel.snp.makeConstraints { make in
             make.top.equalTo(forwardButton.snp.bottom).offset(16)
-            make.trailing.equalTo(view.snp.centerX)
+            make.trailing.equalTo(view.snp.centerX).offset(-5)
         }
 
 
