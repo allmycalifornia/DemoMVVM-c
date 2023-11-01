@@ -23,7 +23,17 @@ class PasswordToggleButton: UIButton {
         setImage(UIImage(systemName: "eye"), for: .selected)
         tintColor = .gray
         addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        
+        // Устанавливаем отступы для изображения
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 16)
+        
+        // констрейнты для установки отступа справа
+//        self.translatesAutoresizingMaskIntoConstraints = false
+//        widthAnchor.constraint(equalToConstant: 32).isActive = true // Ширина иконки
+//        heightAnchor.constraint(equalToConstant: 32).isActive = true // Высота иконки
     }
+    
+    
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
