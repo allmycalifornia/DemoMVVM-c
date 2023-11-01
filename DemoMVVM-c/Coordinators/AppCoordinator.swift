@@ -26,7 +26,7 @@ class AppCoordinator {
     }
     
     func showSecondScreen() {
-        let secondViewModel = SecondViewModel()
+        let secondViewModel = AuthViewModel()
         let secondViewController = SecondViewController()
         secondViewController.viewModel = secondViewModel
         secondViewController.coordinator = self

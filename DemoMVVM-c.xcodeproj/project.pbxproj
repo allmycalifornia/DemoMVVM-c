@@ -16,6 +16,9 @@
 		8E0221812AEFCBC800B56696 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0221802AEFCBC800B56696 /* SecondViewController.swift */; };
 		8E0221832AEFCBEE00B56696 /* ThirdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0221822AEFCBEE00B56696 /* ThirdViewModel.swift */; };
 		8E0221852AEFCC4900B56696 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0221842AEFCC4900B56696 /* ThirdViewController.swift */; };
+		8E088E792AF276FC006AEE77 /* PasswordToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E088E782AF276FC006AEE77 /* PasswordToggleButton.swift */; };
+		8E3A76562AF24B2D00C945D2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3A76552AF24B2D00C945D2 /* User.swift */; };
+		8E3A76582AF24D3F00C945D2 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3A76572AF24D3F00C945D2 /* AuthViewModel.swift */; };
 		8EBB0A772AEFC4DE00A82886 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBB0A762AEFC4DE00A82886 /* AppDelegate.swift */; };
 		8EBB0A792AEFC4DE00A82886 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBB0A782AEFC4DE00A82886 /* SceneDelegate.swift */; };
 		8EBB0A802AEFC4E000A82886 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EBB0A7F2AEFC4E000A82886 /* Assets.xcassets */; };
@@ -34,6 +37,9 @@
 		8E0221802AEFCBC800B56696 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		8E0221822AEFCBEE00B56696 /* ThirdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewModel.swift; sourceTree = "<group>"; };
 		8E0221842AEFCC4900B56696 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		8E088E782AF276FC006AEE77 /* PasswordToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordToggleButton.swift; sourceTree = "<group>"; };
+		8E3A76552AF24B2D00C945D2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8E3A76572AF24D3F00C945D2 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		8EBB0A732AEFC4DE00A82886 /* DemoMVVM-c.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DemoMVVM-c.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EBB0A762AEFC4DE00A82886 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EBB0A782AEFC4DE00A82886 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				8E0221732AEFCA3E00B56696 /* Item.swift */,
+				8E3A76552AF24B2D00C945D2 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -86,6 +93,7 @@
 				8E02217A2AEFCB5700B56696 /* FirstViewModel.swift */,
 				8E02217E2AEFCBAA00B56696 /* SecondViewModel.swift */,
 				8E0221822AEFCBEE00B56696 /* ThirdViewModel.swift */,
+				8E3A76572AF24D3F00C945D2 /* AuthViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -106,6 +114,14 @@
 				8E0221782AEFCB1400B56696 /* AppCoordinator.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		8E088E772AF276E3006AEE77 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				8E088E782AF276FC006AEE77 /* PasswordToggleButton.swift */,
+			);
+			path = SupportFiles;
 			sourceTree = "<group>";
 		};
 		8EBB0A6A2AEFC4DE00A82886 = {
@@ -129,6 +145,7 @@
 		8EBB0A752AEFC4DE00A82886 /* DemoMVVM-c */ = {
 			isa = PBXGroup;
 			children = (
+				8E088E772AF276E3006AEE77 /* SupportFiles */,
 				8EE5BFD92AEFDDAD00F8520B /* App */,
 				8E0221772AEFCAF700B56696 /* Coordinators */,
 				8E0221762AEFCAE600B56696 /* Views */,
@@ -272,9 +289,12 @@
 				8E0221832AEFCBEE00B56696 /* ThirdViewModel.swift in Sources */,
 				8E02217D2AEFCB7F00B56696 /* FirstViewController.swift in Sources */,
 				8E0221792AEFCB1400B56696 /* AppCoordinator.swift in Sources */,
+				8E088E792AF276FC006AEE77 /* PasswordToggleButton.swift in Sources */,
 				8EBB0A772AEFC4DE00A82886 /* AppDelegate.swift in Sources */,
+				8E3A76582AF24D3F00C945D2 /* AuthViewModel.swift in Sources */,
 				8E0221742AEFCA3E00B56696 /* Item.swift in Sources */,
 				8EBB0A792AEFC4DE00A82886 /* SceneDelegate.swift in Sources */,
+				8E3A76562AF24B2D00C945D2 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

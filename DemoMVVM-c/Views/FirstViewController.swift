@@ -18,7 +18,7 @@ class FirstViewController: UIViewController {
         title = "Первый экран"
         
         let button = UIButton()
-        button.setTitle("Переход на второй экран", for: .normal)
+        button.setTitle("Авторизоваться", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
