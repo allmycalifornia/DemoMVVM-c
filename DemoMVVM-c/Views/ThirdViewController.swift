@@ -14,11 +14,13 @@ class ThirdViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray2
-        title = "Третий экран"
+        view.backgroundColor = .systemGray6
+        //title = "Третий экран"
         
         let label = UILabel()
-        label.text = "Это последний экран"
+        label.text = "Заглушка для кнопок\nрегистрации и восстановления пароля"
+        label.numberOfLines = 0
+        label.textAlignment = .center
         
         view.addSubview(label)
     

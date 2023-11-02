@@ -133,10 +133,11 @@ class SecondViewController: UIViewController {
         forgotPasswordButton.setAttributedTitle(attributedText, for: .normal)
         forgotPasswordButton.setTitleColor(.systemBlue, for: .normal)
         forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
         view.addSubview(forgotPasswordButton)
         forgotPasswordButton.snp.makeConstraints { make in
             make.top.equalTo(warningLabel.snp.bottom).offset(10)
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
 
         // Forward Button
@@ -161,6 +162,7 @@ class SecondViewController: UIViewController {
         letRegisterButton.setAttributedTitle(registerAttributedText, for: .normal)
         letRegisterButton.setTitleColor(.systemBlue, for: .normal)
         letRegisterButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        letRegisterButton.addTarget(self, action: #selector(letRegisterButtonTapped), for: .touchUpInside)
         view.addSubview(letRegisterButton)
         letRegisterButton.snp.makeConstraints { make in
             make.top.equalTo(forwardButton.snp.bottom).offset(10)
@@ -198,7 +200,7 @@ class SecondViewController: UIViewController {
             forwardButton.setTitleColor(.darkGray, for: .normal) // Цвет текста кнопки, когда неактивна
         }
     }
-
+        // проверка введенных данных авторизации
         @objc func forwardButtonTapped() {
             let phoneNumber = phoneTextField.text ?? ""
             let password = passwordTextField.text ?? ""
@@ -206,10 +208,22 @@ class SecondViewController: UIViewController {
             warningLabel.text = message
         }
     
-    // Действие для кнопки, чтобы она стирала введенные данные
-    @objc func clearPhoneTextField() {
+        // Действие для кнопки, чтобы она стирала введенные данные
+        @objc func clearPhoneTextField() {
         phoneTextField.text = "" // Очищаем текстовое поле
+        }
+    
+        // Действие кнопки "Забыли пароль?"
+    @objc func forgotPasswordButtonTapped() {
+        //TODO: написать метод перехода на экран восстановления пароля
+        coordinator?.showThirdScreen()  // пока стоит заглушка
     }
     
+        // Действие кнопки "Зарегистрируйтесь"
+    @objc func letRegisterButtonTapped() {
+        //TODO: написать метод перехода на экран регистрации
+        coordinator?.showThirdScreen()  // пока стоит заглушка
     }
+    
+}
 
