@@ -129,37 +129,37 @@ class SecondViewController: UIViewController {
 
 
         // Combine-based Validation
-                phoneTextField.publisher(for: \.text)
-                    .map { $0 ?? "" }
-                    .removeDuplicates()
-                    .sink { [weak self] phoneText in
-                        if phoneText.isEmpty {
-                            self?.warningLabel.text = ""
-                        } else if !(phoneText.hasPrefix("+") && phoneText.count == 12) {
-                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
-                        } else if let passwordText = self?.passwordTextField.text, passwordText.count < 6 || passwordText.count > 20 {
-                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
-                        } else {
-                            self?.warningLabel.text = ""
-                        }
-                    }
-                    .store(in: &cancellables)
-
-                passwordTextField.publisher(for: \.text)
-                    .map { $0 ?? "" }
-                    .removeDuplicates()
-                    .sink { [weak self] passwordText in
-                        if passwordText.isEmpty {
-                            self?.warningLabel.text = ""
-                        } else if !(passwordText.count >= 6 && passwordText.count <= 20) {
-                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
-                        } else if let phoneText = self?.phoneTextField.text, !(phoneText.hasPrefix("+") && phoneText.count == 12) {
-                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
-                        } else {
-                            self?.warningLabel.text = ""
-                        }
-                    }
-                    .store(in: &cancellables)
+//                phoneTextField.publisher(for: \.text)
+//                    .map { $0 ?? "" }
+//                    .removeDuplicates()
+//                    .sink { [weak self] phoneText in
+//                        if phoneText.isEmpty {
+//                            self?.warningLabel.text = ""
+//                        } else if !(phoneText.hasPrefix("+") && phoneText.count == 12) {
+//                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
+//                        } else if let passwordText = self?.passwordTextField.text, passwordText.count < 6 || passwordText.count > 20 {
+//                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
+//                        } else {
+//                            self?.warningLabel.text = ""
+//                        }
+//                    }
+//                    .store(in: &cancellables)
+//
+//                passwordTextField.publisher(for: \.text)
+//                    .map { $0 ?? "" }
+//                    .removeDuplicates()
+//                    .sink { [weak self] passwordText in
+//                        if passwordText.isEmpty {
+//                            self?.warningLabel.text = ""
+//                        } else if !(passwordText.count >= 6 && passwordText.count <= 20) {
+//                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
+//                        } else if let phoneText = self?.phoneTextField.text, !(phoneText.hasPrefix("+") && phoneText.count == 12) {
+//                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
+//                        } else {
+//                            self?.warningLabel.text = ""
+//                        }
+//                    }
+//                    .store(in: &cancellables)
 
         
         // forgot password button
@@ -224,20 +224,44 @@ class SecondViewController: UIViewController {
         }
 
     @objc func textFieldDidChange() {
-        // Проверка, заполнены ли оба текстовых поля, чтобы включить/выключить кнопку
-        let isPhoneValid = !(phoneTextField.text?.isEmpty ?? true)
-        let isPasswordValid = !(passwordTextField.text?.isEmpty ?? true)
-        forwardButton.isEnabled = isPhoneValid && isPasswordValid
+        let phoneNumber = phoneTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
         
-        // Изменяем цвет текста и цвет заливки кнопки в зависимости от условия
-        if forwardButton.isEnabled {
-            forwardButton.backgroundColor = .systemYellow // Цвет заливки кнопки, когда активна
-            forwardButton.setTitleColor(.white, for: .normal) // Цвет текста кнопки, когда активна
+        var phoneMessage = ""
+        var passwordMessage = ""
+        
+        if phoneNumber.isEmpty || (phoneNumber.hasPrefix("+") && phoneNumber.count == 12) {
+            phoneMessage = ""
         } else {
-            forwardButton.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.5) // Цвет заливки кнопки, когда неактивна
-            forwardButton.setTitleColor(.darkGray, for: .normal) // Цвет текста кнопки, когда неактивна
+            phoneMessage = "Номер телефона должен содержать минимум 11 цифр"
         }
+        
+        if password.isEmpty || (password.count >= 6 && password.count <= 20) {
+            passwordMessage = ""
+        } else {
+            passwordMessage = "Пароль должен содержать от 6 до 20 символов"
+        }
+        
+        warningLabel.text = phoneMessage.isEmpty ? passwordMessage : phoneMessage
+        forwardButton.isEnabled = phoneMessage.isEmpty && passwordMessage.isEmpty
     }
+
+    
+//    @objc func textFieldDidChange() {
+//        // Проверка, заполнены ли оба текстовых поля, чтобы включить/выключить кнопку
+//        let isPhoneValid = !(phoneTextField.text?.isEmpty ?? true)
+//        let isPasswordValid = !(passwordTextField.text?.isEmpty ?? true)
+//        forwardButton.isEnabled = isPhoneValid && isPasswordValid
+//        
+//        // Изменяем цвет текста и цвет заливки кнопки в зависимости от условия
+//        if forwardButton.isEnabled {
+//            forwardButton.backgroundColor = .systemYellow // Цвет заливки кнопки, когда активна
+//            forwardButton.setTitleColor(.white, for: .normal) // Цвет текста кнопки, когда активна
+//        } else {
+//            forwardButton.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.5) // Цвет заливки кнопки, когда неактивна
+//            forwardButton.setTitleColor(.darkGray, for: .normal) // Цвет текста кнопки, когда неактивна
+//        }
+//    }
         // проверка введенных данных авторизации
         @objc func forwardButtonTapped() {
             let phoneNumber = phoneTextField.text ?? ""
