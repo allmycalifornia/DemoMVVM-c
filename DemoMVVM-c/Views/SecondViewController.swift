@@ -49,9 +49,16 @@ class SecondViewController: UIViewController {
         }
 
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = 16 // Регулируйте значение отступа здесь
+        paragraphStyle.firstLineHeadIndent = 16
         
+        let clearButton = UIButton(type: .custom)
+        clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        clearButton.tintColor = .gray
+        clearButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24) // Размер кнопки
+        clearButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
+        clearButton.addTarget(self, action: #selector(clearPhoneTextField), for: .touchUpInside)
 
+        
         // Phone TextField
         phoneTextField.attributedPlaceholder = NSAttributedString(
             string: "Номер телефона",
@@ -67,10 +74,12 @@ class SecondViewController: UIViewController {
         phoneTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
         // Устанавливаем атрибуты для вводимого текста
         phoneTextField.defaultTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 18, weight: .regular), // Системный шрифт жирного стиля и размер 18
+            .font: UIFont.systemFont(ofSize: 18, weight: .regular),
             .foregroundColor: UIColor.black, // Цвет текста
             .paragraphStyle: paragraphStyle
         ]
+        phoneTextField.rightView = clearButton
+        phoneTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
         view.addSubview(phoneTextField)
         phoneTextField.snp.makeConstraints { make in
             make.top.equalTo(welcomeLabel.snp.bottom).offset(20)
@@ -169,8 +178,6 @@ class SecondViewController: UIViewController {
             make.trailing.equalTo(view.snp.centerX).offset(-5)
         }
 
-
-
         // Добавим наблюдателей для изменения текстовых полей
         phoneTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -198,5 +205,11 @@ class SecondViewController: UIViewController {
             let message = viewModel.authenticateUser(phoneNumber: phoneNumber, password: password, users: users)
             warningLabel.text = message
         }
+    
+    // Действие для кнопки, чтобы она стирала введенные данные
+    @objc func clearPhoneTextField() {
+        phoneTextField.text = "" // Очищаем текстовое поле
+    }
+    
     }
 
