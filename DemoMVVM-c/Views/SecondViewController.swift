@@ -224,27 +224,41 @@ class SecondViewController: UIViewController {
         }
 
     @objc func textFieldDidChange() {
+        // Проверка валидности номера телефона
         let phoneNumber = phoneTextField.text ?? ""
+        let isPhoneValid = phoneNumber.count == 12 && phoneNumber.hasPrefix("+")
+        
+        // Проверка валидности пароля
         let password = passwordTextField.text ?? ""
+        let isPasswordValid = (6...20).contains(password.count)
         
-        var phoneMessage = ""
-        var passwordMessage = ""
+        // Определение сообщений об ошибках
+        var phoneError = ""
+        var passwordError = ""
         
-        if phoneNumber.isEmpty || (phoneNumber.hasPrefix("+") && phoneNumber.count == 12) {
-            phoneMessage = ""
-        } else {
-            phoneMessage = "Номер телефона должен содержать минимум 11 цифр"
+        if !isPhoneValid {
+            phoneError = "Номер телефона должен содержать 11 цифр"
         }
         
-        if password.isEmpty || (password.count >= 6 && password.count <= 20) {
-            passwordMessage = ""
-        } else {
-            passwordMessage = "Пароль должен содержать от 6 до 20 символов"
+        if !isPasswordValid {
+            passwordError = "Пароль должен содержать от 6 до 20 символов"
         }
         
-        warningLabel.text = phoneMessage.isEmpty ? passwordMessage : phoneMessage
-        forwardButton.isEnabled = phoneMessage.isEmpty && passwordMessage.isEmpty
+        // Отображение сообщений об ошибках
+        warningLabel.text = phoneError + "\n" + passwordError
+        
+        // Включение/выключение кнопки "Вперед" и изменение цвета
+        forwardButton.isEnabled = isPhoneValid && isPasswordValid
+        
+        if forwardButton.isEnabled {
+            forwardButton.backgroundColor = .systemYellow
+            forwardButton.setTitleColor(.white, for: .normal)
+        } else {
+            forwardButton.backgroundColor = .systemGray5
+            forwardButton.setTitleColor(.black, for: .normal)
+        }
     }
+
 
     
 //    @objc func textFieldDidChange() {
