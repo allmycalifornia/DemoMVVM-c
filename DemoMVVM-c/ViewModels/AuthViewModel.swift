@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Combine
 
 class AuthViewModel {
+    let inputState = InputState()
+    
     func authenticateUser(phoneNumber: String, password: String, users: [User]) -> String? {
         // Проверка введенных данных
 

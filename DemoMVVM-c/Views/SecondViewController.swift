@@ -7,11 +7,13 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class SecondViewController: UIViewController {
     var viewModel: AuthViewModel!
     var coordinator: AppCoordinator?
-
+    
+    private var cancellables: Set<AnyCancellable> = []
     private let logoImageView = UIImageView()
     private let welcomeLabel = UILabel()
     private let phoneTextField = UITextField()
@@ -124,6 +126,41 @@ class SecondViewController: UIViewController {
             make.top.equalTo(passwordTextField.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
         }
+
+
+        // Combine-based Validation
+                phoneTextField.publisher(for: \.text)
+                    .map { $0 ?? "" }
+                    .removeDuplicates()
+                    .sink { [weak self] phoneText in
+                        if phoneText.isEmpty {
+                            self?.warningLabel.text = ""
+                        } else if !(phoneText.hasPrefix("+") && phoneText.count == 12) {
+                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
+                        } else if let passwordText = self?.passwordTextField.text, passwordText.count < 6 || passwordText.count > 20 {
+                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
+                        } else {
+                            self?.warningLabel.text = ""
+                        }
+                    }
+                    .store(in: &cancellables)
+
+                passwordTextField.publisher(for: \.text)
+                    .map { $0 ?? "" }
+                    .removeDuplicates()
+                    .sink { [weak self] passwordText in
+                        if passwordText.isEmpty {
+                            self?.warningLabel.text = ""
+                        } else if !(passwordText.count >= 6 && passwordText.count <= 20) {
+                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
+                        } else if let phoneText = self?.phoneTextField.text, !(phoneText.hasPrefix("+") && phoneText.count == 12) {
+                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
+                        } else {
+                            self?.warningLabel.text = ""
+                        }
+                    }
+                    .store(in: &cancellables)
+
         
         // forgot password button
         forgotPasswordButton.setTitle("Забыли пароль?", for: .normal)
@@ -145,6 +182,7 @@ class SecondViewController: UIViewController {
         forwardButton.setTitleColor(.black, for: .normal)
         forwardButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         forwardButton.layer.cornerRadius = 8
+        forwardButton.backgroundColor = .systemGray5
         forwardButton.addTarget(self, action: #selector(forwardButtonTapped), for: .touchUpInside)
         view.addSubview(forwardButton)
         forwardButton.snp.makeConstraints { make in
