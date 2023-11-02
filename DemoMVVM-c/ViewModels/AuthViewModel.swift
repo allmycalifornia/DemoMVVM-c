@@ -6,16 +6,15 @@
 //
 
 import Foundation
-import Combine
 
 class AuthViewModel {
-    let inputState = InputState()
+    weak var coordinator: AppCoordinator?
     
     func authenticateUser(phoneNumber: String, password: String, users: [User]) -> String? {
         // Проверка введенных данных
 
         if phoneNumber.count < 11 {
-            return "Номер телефона должен содержать минимум 11 цифр"
+            return "Номер телефона должен содержать 11 цифр"
         }
 
         if password.count < 6 || password.count > 20 {
@@ -23,14 +22,17 @@ class AuthViewModel {
         }
 
         // Проверка авторизации
-        if let user = users.first(where: { $0.phoneNumber == phoneNumber }) {
-            if user.password == password {
-                return "Авторизация успешна"
-            } else {
-                return "Неверный пароль"
-            }
-        } else {
-            return "Данный пользователь не найден"
+                if let user = users.first(where: { $0.phoneNumber == phoneNumber }) {
+                    if user.password == password {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                            self.coordinator?.showThirdScreen()
+                                        }
+                        return "Успешная авторизация. Сейчас будет выполнен вход"
+                    } else {
+                        return "Неверный пароль"
+                    }
+                } else {
+                    return "Данный пользователь не найден"
         }
     }
 }

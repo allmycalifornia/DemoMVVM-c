@@ -23,7 +23,6 @@
 		8EBB0A792AEFC4DE00A82886 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBB0A782AEFC4DE00A82886 /* SceneDelegate.swift */; };
 		8EBB0A802AEFC4E000A82886 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EBB0A7F2AEFC4E000A82886 /* Assets.xcassets */; };
 		8EBB0A832AEFC4E000A82886 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EBB0A812AEFC4E000A82886 /* LaunchScreen.storyboard */; };
-		8ED3CCB52AF3981700CFB9D1 /* InputState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3CCB42AF3981700CFB9D1 /* InputState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +47,6 @@
 		8EBB0A822AEFC4E000A82886 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EBB0A842AEFC4E000A82886 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EBB0A8A2AEFC56B00A82886 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ru; path = ru.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8ED3CCB42AF3981700CFB9D1 /* InputState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +83,6 @@
 			children = (
 				8E0221732AEFCA3E00B56696 /* Item.swift */,
 				8E3A76552AF24B2D00C945D2 /* User.swift */,
-				8ED3CCB42AF3981700CFB9D1 /* InputState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -289,7 +286,6 @@
 				8E02217F2AEFCBAA00B56696 /* SecondViewModel.swift in Sources */,
 				8E0221852AEFCC4900B56696 /* ThirdViewController.swift in Sources */,
 				8E02217B2AEFCB5700B56696 /* FirstViewModel.swift in Sources */,
-				8ED3CCB52AF3981700CFB9D1 /* InputState.swift in Sources */,
 				8E0221832AEFCBEE00B56696 /* ThirdViewModel.swift in Sources */,
 				8E02217D2AEFCB7F00B56696 /* FirstViewController.swift in Sources */,
 				8E0221792AEFCB1400B56696 /* AppCoordinator.swift in Sources */,

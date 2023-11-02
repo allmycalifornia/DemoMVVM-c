@@ -7,13 +7,11 @@
 
 import UIKit
 import SnapKit
-import Combine
 
 class SecondViewController: UIViewController {
     var viewModel: AuthViewModel!
     var coordinator: AppCoordinator?
     
-    private var cancellables: Set<AnyCancellable> = []
     private let logoImageView = UIImageView()
     private let welcomeLabel = UILabel()
     private let phoneTextField = UITextField()
@@ -27,6 +25,9 @@ class SecondViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        viewModel = AuthViewModel()
+        viewModel.coordinator = coordinator
 
         // Logo
         logoImageView.image = UIImage(named: "BettaLogoWithName")
@@ -126,41 +127,6 @@ class SecondViewController: UIViewController {
             make.top.equalTo(passwordTextField.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
         }
-
-
-        // Combine-based Validation
-//                phoneTextField.publisher(for: \.text)
-//                    .map { $0 ?? "" }
-//                    .removeDuplicates()
-//                    .sink { [weak self] phoneText in
-//                        if phoneText.isEmpty {
-//                            self?.warningLabel.text = ""
-//                        } else if !(phoneText.hasPrefix("+") && phoneText.count == 12) {
-//                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
-//                        } else if let passwordText = self?.passwordTextField.text, passwordText.count < 6 || passwordText.count > 20 {
-//                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
-//                        } else {
-//                            self?.warningLabel.text = ""
-//                        }
-//                    }
-//                    .store(in: &cancellables)
-//
-//                passwordTextField.publisher(for: \.text)
-//                    .map { $0 ?? "" }
-//                    .removeDuplicates()
-//                    .sink { [weak self] passwordText in
-//                        if passwordText.isEmpty {
-//                            self?.warningLabel.text = ""
-//                        } else if !(passwordText.count >= 6 && passwordText.count <= 20) {
-//                            self?.warningLabel.text = "Пароль должен содержать от 6 до 20 символов"
-//                        } else if let phoneText = self?.phoneTextField.text, !(phoneText.hasPrefix("+") && phoneText.count == 12) {
-//                            self?.warningLabel.text = "Номер телефона должен содержать минимум 11 цифр"
-//                        } else {
-//                            self?.warningLabel.text = ""
-//                        }
-//                    }
-//                    .store(in: &cancellables)
-
         
         // forgot password button
         forgotPasswordButton.setTitle("Забыли пароль?", for: .normal)
@@ -259,23 +225,6 @@ class SecondViewController: UIViewController {
         }
     }
 
-
-    
-//    @objc func textFieldDidChange() {
-//        // Проверка, заполнены ли оба текстовых поля, чтобы включить/выключить кнопку
-//        let isPhoneValid = !(phoneTextField.text?.isEmpty ?? true)
-//        let isPasswordValid = !(passwordTextField.text?.isEmpty ?? true)
-//        forwardButton.isEnabled = isPhoneValid && isPasswordValid
-//        
-//        // Изменяем цвет текста и цвет заливки кнопки в зависимости от условия
-//        if forwardButton.isEnabled {
-//            forwardButton.backgroundColor = .systemYellow // Цвет заливки кнопки, когда активна
-//            forwardButton.setTitleColor(.white, for: .normal) // Цвет текста кнопки, когда активна
-//        } else {
-//            forwardButton.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.5) // Цвет заливки кнопки, когда неактивна
-//            forwardButton.setTitleColor(.darkGray, for: .normal) // Цвет текста кнопки, когда неактивна
-//        }
-//    }
         // проверка введенных данных авторизации
         @objc func forwardButtonTapped() {
             let phoneNumber = phoneTextField.text ?? ""

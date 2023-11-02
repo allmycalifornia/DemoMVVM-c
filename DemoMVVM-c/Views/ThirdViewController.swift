@@ -18,7 +18,11 @@ class ThirdViewController: UIViewController {
         //title = "Третий экран"
         
         let label = UILabel()
-        label.text = "Заглушка для кнопок\nрегистрации и восстановления пароля"
+        label.text = """
+        Заглушка для кнопок
+        регистрации, восстановления пароля
+        или авторизации"
+        """
         label.numberOfLines = 0
         label.textAlignment = .center
         
