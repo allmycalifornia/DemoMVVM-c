@@ -231,7 +231,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             forwardButton.backgroundColor = .systemYellow
             forwardButton.setTitleColor(.white, for: .normal)
         } else {
-            forwardButton.backgroundColor = .systemGray5
+            forwardButton.backgroundColor = .systemYellow.withAlphaComponent(0.5)
             forwardButton.setTitleColor(.black, for: .normal)
         }
         
