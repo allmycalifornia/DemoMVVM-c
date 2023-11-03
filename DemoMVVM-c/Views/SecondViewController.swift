@@ -384,3 +384,15 @@ extension SecondViewController {
         return true
     }
 }
+
+
+// MARK: подстановка символов +7 в начало поля ввода номера телефона
+extension SecondViewController {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == phoneTextField {
+            if !textField.text!.hasPrefix("+7") {
+                textField.text = "+7" + textField.text!
+            }
+        }
+    }
+}
