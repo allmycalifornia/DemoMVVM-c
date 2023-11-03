@@ -8,10 +8,13 @@
 import UIKit
 import SnapKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, UITextFieldDelegate {
     var viewModel: AuthViewModel!
     var coordinator: AppCoordinator?
     
+    private let notification = NotificationCenter.default
+    //private let scrollView = UIScrollView()
+    //private let contentView = UIView()
     private let logoImageView = UIImageView()
     private let welcomeLabel = UILabel()
     private let phoneTextField = UITextField()
@@ -28,6 +31,32 @@ class SecondViewController: UIViewController {
         
         viewModel = AuthViewModel()
         viewModel.coordinator = coordinator
+        
+        phoneTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+//        scrollView.translatesAutoresizingMaskIntoConstraints = false
+//        contentView.translatesAutoresizingMaskIntoConstraints = false
+//        scrollView.isUserInteractionEnabled = true
+//        contentView.isUserInteractionEnabled = true
+
+
+        // Добавляем scrollView и contentView
+//        view.addSubview(scrollView)
+//        scrollView.addSubview(contentView)
+//        scrollView.snp.makeConstraints { make in
+//                make.edges.equalToSuperview()
+//            }
+//        contentView.snp.makeConstraints { make in
+//                make.edges.equalTo(scrollView)
+//                make.width.equalTo(view)
+//            }
+
 
         // Logo
         logoImageView.image = UIImage(named: "BettaLogoWithName")
@@ -83,6 +112,9 @@ class SecondViewController: UIViewController {
         ]
         phoneTextField.rightView = clearButton
         phoneTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
+        //phoneTextField.translatesAutoresizingMaskIntoConstraints = false
+        phoneTextField.autoresizingMask = .flexibleBottomMargin
+        phoneTextField.isUserInteractionEnabled = true
         view.addSubview(phoneTextField)
         phoneTextField.snp.makeConstraints { make in
             make.top.equalTo(welcomeLabel.snp.bottom).offset(20)
@@ -111,6 +143,9 @@ class SecondViewController: UIViewController {
             .foregroundColor: UIColor.black, // Цвет текста
             .paragraphStyle: paragraphStyle
         ]
+        //passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.autoresizingMask = .flexibleBottomMargin
+        passwordTextField.isUserInteractionEnabled = true
         view.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(phoneTextField.snp.bottom).offset(20)
@@ -137,6 +172,7 @@ class SecondViewController: UIViewController {
         forgotPasswordButton.setTitleColor(.systemBlue, for: .normal)
         forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
+        forgotPasswordButton.isUserInteractionEnabled = true
         view.addSubview(forgotPasswordButton)
         forgotPasswordButton.snp.makeConstraints { make in
             make.top.equalTo(warningLabel.snp.bottom).offset(10)
@@ -150,6 +186,7 @@ class SecondViewController: UIViewController {
         forwardButton.layer.cornerRadius = 8
         forwardButton.backgroundColor = .systemGray5
         forwardButton.addTarget(self, action: #selector(forwardButtonTapped), for: .touchUpInside)
+        forwardButton.isUserInteractionEnabled = true
         view.addSubview(forwardButton)
         forwardButton.snp.makeConstraints { make in
             make.top.equalTo(forgotPasswordButton.snp.bottom).offset(20)
@@ -167,6 +204,7 @@ class SecondViewController: UIViewController {
         letRegisterButton.setTitleColor(.systemBlue, for: .normal)
         letRegisterButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         letRegisterButton.addTarget(self, action: #selector(letRegisterButtonTapped), for: .touchUpInside)
+        letRegisterButton.isUserInteractionEnabled = true
         view.addSubview(letRegisterButton)
         letRegisterButton.snp.makeConstraints { make in
             make.top.equalTo(forwardButton.snp.bottom).offset(10)
@@ -223,6 +261,7 @@ class SecondViewController: UIViewController {
             forwardButton.backgroundColor = .systemGray5
             forwardButton.setTitleColor(.black, for: .normal)
         }
+        
     }
 
         // проверка введенных данных авторизации
@@ -240,15 +279,47 @@ class SecondViewController: UIViewController {
     
         // Действие кнопки "Забыли пароль?"
     @objc func forgotPasswordButtonTapped() {
-        //TODO: написать метод перехода на экран восстановления пароля
         coordinator?.showThirdScreen()  // пока стоит заглушка
     }
     
         // Действие кнопки "Зарегистрируйтесь"
     @objc func letRegisterButtonTapped() {
-        //TODO: написать метод перехода на экран регистрации
         coordinator?.showThirdScreen()  // пока стоит заглушка
     }
     
 }
 
+
+
+// MARK: скрытие клавиатуры по нажатию на return
+extension SecondViewController {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
+    }
+}
+
+
+// TODO: попробовать вот это вместо ScrollView
+//phoneTextField.autoresizingMask = .flexibleBottomMargin
+//passwordTextField.autoresizingMask = .flexibleBottomMargin
+
+
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//            // Опционально: Прокручиваем ScrollView вверх, чтобы избежать перекрытия клавиатурой
+//            if let frame = textField.superview?.convert(textField.frame, to: contentView) {
+//                scrollView.scrollRectToVisible(frame, animated: true)
+//            }
+//        }
+    
+//    @objc func keyboardWillShow(_ notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+//            self.scrollView.contentInset.bottom = keyboardSize.height
+//            self.scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+//        }
+//    }
+//
+//    @objc func keyboardWillHide(_ notification: NSNotification) {
+//        self.scrollView.contentInset = .zero
+//        self.scrollView.verticalScrollIndicatorInsets = .zero
+//    }
