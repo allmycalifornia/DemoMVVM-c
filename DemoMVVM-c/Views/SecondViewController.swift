@@ -17,12 +17,45 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     private let logoImageView = UIImageView()
     private let welcomeLabel = UILabel()
     private let phoneTextField = UITextField()
+    private let documentNumberTextField = UITextField()
     private let passwordTextField = UITextField()
     private let warningLabel = UILabel()
     private let forgotPasswordButton = UIButton()
     private let forwardButton = UIButton()
     private let letRegisterButton = UIButton()
     private let noAccountLabel = UILabel()
+    
+    private let segmentedControl: UISegmentedControl = {
+            let segmentedControl = UISegmentedControl(items: ["Телефон", "Документ"])
+            segmentedControl.selectedSegmentIndex = 0
+
+            // Устанавливаем стиль и цвета для нормального состояния
+            segmentedControl.setTitleTextAttributes([
+                .font: UIFont.boldSystemFont(ofSize: 18), // жирный шрифт 18 размера
+                .foregroundColor: UIColor.black // цвет текста
+            ], for: .normal)
+
+            // Устанавливаем стиль и цвета для выбранного состояния
+            segmentedControl.setTitleTextAttributes([
+                .font: UIFont.boldSystemFont(ofSize: 18), // жирный шрифт 18 размера
+                .foregroundColor: UIColor.systemBlue // цвет текста
+            ], for: .selected)
+
+            // Устанавливаем цвет подчеркивания для выбранного сегмента
+            segmentedControl.setTitleTextAttributes([
+                .foregroundColor: UIColor.systemYellow // цвет подчеркивания
+            ], for: .selected)
+
+            // Убираем фон
+            segmentedControl.backgroundColor = .clear
+            // Убираем обводку сегментов
+            segmentedControl.layer.borderWidth = 0
+
+            segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
+            return segmentedControl
+        }()
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +106,17 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         clearButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24) // Размер кнопки
         clearButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
         clearButton.addTarget(self, action: #selector(clearPhoneTextField), for: .touchUpInside)
+        
+        // Добавляем UISegmentedControl
+        contentView.addSubview(segmentedControl)
+        segmentedControl.snp.makeConstraints { make in
+            make.top.equalTo(welcomeLabel.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(40)
+        }
+        
+        showPhoneTextField()
 
         
         // Phone TextField
@@ -97,7 +141,33 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         phoneTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
         contentView.addSubview(phoneTextField)
         phoneTextField.snp.makeConstraints { make in
-            make.top.equalTo(welcomeLabel.snp.bottom).offset(20)
+            make.top.equalTo(segmentedControl.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        // Document Number TextField
+        documentNumberTextField.attributedPlaceholder = NSAttributedString(
+            string: "Номер документа",
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 18),
+                .paragraphStyle: paragraphStyle,
+                .foregroundColor: UIColor.gray
+            ]
+        )
+        documentNumberTextField.backgroundColor = .systemGray6
+        documentNumberTextField.borderStyle = .roundedRect
+        documentNumberTextField.keyboardType = .phonePad
+        documentNumberTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        documentNumberTextField.defaultTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 18, weight: .regular),
+            .foregroundColor: UIColor.black, // Цвет текста
+            .paragraphStyle: paragraphStyle
+        ]
+        documentNumberTextField.rightView = clearButton
+        documentNumberTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
+        contentView.addSubview(documentNumberTextField)
+        documentNumberTextField.snp.makeConstraints { make in
+            make.top.equalTo(segmentedControl.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
         }
 
@@ -280,6 +350,28 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         @objc func keyboardWillHide(notification: NSNotification) {
             self.view.frame.origin.y = 0
         }
+    
+        // метод выбора способа авторизации - телефон или документ
+        @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+                switch sender.selectedSegmentIndex {
+                case 0:
+                    showPhoneTextField()
+                case 1:
+                    showDocumentNumberTextField()
+                default:
+                    break
+                }
+            }
+
+            func showPhoneTextField() {
+                phoneTextField.isHidden = false
+                documentNumberTextField.isHidden = true
+            }
+
+            func showDocumentNumberTextField() {
+                phoneTextField.isHidden = true
+                documentNumberTextField.isHidden = false
+            }
 
 }
 
