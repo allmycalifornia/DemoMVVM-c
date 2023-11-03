@@ -31,19 +31,19 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
 
             // Устанавливаем стиль и цвета для нормального состояния
             segmentedControl.setTitleTextAttributes([
-                .font: UIFont.boldSystemFont(ofSize: 18), // жирный шрифт 18 размера
-                .foregroundColor: UIColor.black // цвет текста
+                .font: UIFont.systemFont(ofSize: 18),
+                .foregroundColor: UIColor.black
             ], for: .normal)
 
             // Устанавливаем стиль и цвета для выбранного состояния
             segmentedControl.setTitleTextAttributes([
-                .font: UIFont.boldSystemFont(ofSize: 18), // жирный шрифт 18 размера
-                .foregroundColor: UIColor.systemBlue // цвет текста
+                .font: UIFont.systemFont(ofSize: 18),
+                .foregroundColor: UIColor.systemBlue
             ], for: .selected)
 
             // Устанавливаем цвет подчеркивания для выбранного сегмента
             segmentedControl.setTitleTextAttributes([
-                .foregroundColor: UIColor.systemYellow // цвет подчеркивания
+                .foregroundColor: UIColor.systemYellow
             ], for: .selected)
 
             // Убираем фон

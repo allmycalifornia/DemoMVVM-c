@@ -15,7 +15,7 @@ class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-        title = "Welcome"
+        //title = "Welcome"
         
         let button = UIButton()
         button.setTitle("Авторизоваться", for: .normal)
