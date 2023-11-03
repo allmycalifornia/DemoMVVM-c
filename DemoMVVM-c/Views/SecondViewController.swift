@@ -13,8 +13,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     var coordinator: AppCoordinator?
     
     private let notification = NotificationCenter.default
-    //private let scrollView = UIScrollView()
-    //private let contentView = UIView()
+    private let contentView = UIView()
     private let logoImageView = UIImageView()
     private let welcomeLabel = UILabel()
     private let phoneTextField = UITextField()
@@ -35,33 +34,18 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         phoneTextField.delegate = self
         passwordTextField.delegate = self
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        
-//        scrollView.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.translatesAutoresizingMaskIntoConstraints = false
-//        scrollView.isUserInteractionEnabled = true
-//        contentView.isUserInteractionEnabled = true
-
-
-        // Добавляем scrollView и contentView
-//        view.addSubview(scrollView)
-//        scrollView.addSubview(contentView)
-//        scrollView.snp.makeConstraints { make in
-//                make.edges.equalToSuperview()
-//            }
-//        contentView.snp.makeConstraints { make in
-//                make.edges.equalTo(scrollView)
-//                make.width.equalTo(view)
-//            }
-
+        view.addSubview(contentView)
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         // Logo
         logoImageView.image = UIImage(named: "BettaLogoWithName")
         logoImageView.contentMode = .scaleAspectFill
-        view.addSubview(logoImageView)
+        contentView.addSubview(logoImageView)
         logoImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(100)
@@ -74,7 +58,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         welcomeLabel.textAlignment = .left
         welcomeLabel.font = UIFont.boldSystemFont(ofSize: 24)
         welcomeLabel.numberOfLines = 0
-        view.addSubview(welcomeLabel)
+        contentView.addSubview(welcomeLabel)
         welcomeLabel.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
@@ -104,7 +88,6 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         phoneTextField.borderStyle = .roundedRect
         phoneTextField.keyboardType = .phonePad
         phoneTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        // Устанавливаем атрибуты для вводимого текста
         phoneTextField.defaultTextAttributes = [
             .font: UIFont.systemFont(ofSize: 18, weight: .regular),
             .foregroundColor: UIColor.black, // Цвет текста
@@ -112,10 +95,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         ]
         phoneTextField.rightView = clearButton
         phoneTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
-        //phoneTextField.translatesAutoresizingMaskIntoConstraints = false
-        phoneTextField.autoresizingMask = .flexibleBottomMargin
-        phoneTextField.isUserInteractionEnabled = true
-        view.addSubview(phoneTextField)
+        contentView.addSubview(phoneTextField)
         phoneTextField.snp.makeConstraints { make in
             make.top.equalTo(welcomeLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
@@ -137,16 +117,12 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.rightView = passwordToggle
         passwordTextField.rightViewMode = .always
         passwordTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        // Устанавливаем атрибуты для вводимого текста
         passwordTextField.defaultTextAttributes = [
             .font: UIFont.systemFont(ofSize: 18, weight: .regular),
             .foregroundColor: UIColor.black, // Цвет текста
             .paragraphStyle: paragraphStyle
         ]
-        //passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.autoresizingMask = .flexibleBottomMargin
-        passwordTextField.isUserInteractionEnabled = true
-        view.addSubview(passwordTextField)
+        contentView.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(phoneTextField.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
@@ -157,7 +133,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         warningLabel.textAlignment = .left
         warningLabel.font = UIFont.systemFont(ofSize: 13)
         warningLabel.numberOfLines = 0
-        view.addSubview(warningLabel)
+        contentView.addSubview(warningLabel)
         warningLabel.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
@@ -172,8 +148,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         forgotPasswordButton.setTitleColor(.systemBlue, for: .normal)
         forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
-        forgotPasswordButton.isUserInteractionEnabled = true
-        view.addSubview(forgotPasswordButton)
+        contentView.addSubview(forgotPasswordButton)
         forgotPasswordButton.snp.makeConstraints { make in
             make.top.equalTo(warningLabel.snp.bottom).offset(10)
             make.trailing.equalToSuperview().offset(-20)
@@ -186,8 +161,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         forwardButton.layer.cornerRadius = 8
         forwardButton.backgroundColor = .systemGray5
         forwardButton.addTarget(self, action: #selector(forwardButtonTapped), for: .touchUpInside)
-        forwardButton.isUserInteractionEnabled = true
-        view.addSubview(forwardButton)
+        contentView.addSubview(forwardButton)
         forwardButton.snp.makeConstraints { make in
             make.top.equalTo(forgotPasswordButton.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
@@ -204,7 +178,6 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         letRegisterButton.setTitleColor(.systemBlue, for: .normal)
         letRegisterButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         letRegisterButton.addTarget(self, action: #selector(letRegisterButtonTapped), for: .touchUpInside)
-        letRegisterButton.isUserInteractionEnabled = true
         view.addSubview(letRegisterButton)
         letRegisterButton.snp.makeConstraints { make in
             make.top.equalTo(forwardButton.snp.bottom).offset(10)
@@ -278,15 +251,36 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
     
         // Действие кнопки "Забыли пароль?"
-    @objc func forgotPasswordButtonTapped() {
-        coordinator?.showThirdScreen()  // пока стоит заглушка
-    }
+        @objc func forgotPasswordButtonTapped() {
+            coordinator?.showThirdScreen()  // пока стоит заглушка
+        }
     
         // Действие кнопки "Зарегистрируйтесь"
-    @objc func letRegisterButtonTapped() {
-        coordinator?.showThirdScreen()  // пока стоит заглушка
-    }
+        @objc func letRegisterButtonTapped() {
+            coordinator?.showThirdScreen()  // пока стоит заглушка
+        }
     
+    
+        // метод показа клавиатуры и подъёма экрана наверх
+        @objc func keyboardWillShow(notification: NSNotification) {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                let buttonFrameInWindow = forwardButton.convert(forwardButton.bounds, to: nil)
+                let bottomOfButton = buttonFrameInWindow.maxY
+
+                // Рассчитываем, насколько нужно поднять экран
+                let offset = bottomOfButton + 10 - (self.view.frame.size.height - keyboardSize.height)
+
+                if offset > 0 {
+                    self.view.frame.origin.y -= offset
+                }
+            }
+        }
+
+        // метод скрытия клавиатуры
+        @objc func keyboardWillHide(notification: NSNotification) {
+            self.view.frame.origin.y = 0
+        }
+
 }
 
 
@@ -298,28 +292,3 @@ extension SecondViewController {
         return true
     }
 }
-
-
-// TODO: попробовать вот это вместо ScrollView
-//phoneTextField.autoresizingMask = .flexibleBottomMargin
-//passwordTextField.autoresizingMask = .flexibleBottomMargin
-
-
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//            // Опционально: Прокручиваем ScrollView вверх, чтобы избежать перекрытия клавиатурой
-//            if let frame = textField.superview?.convert(textField.frame, to: contentView) {
-//                scrollView.scrollRectToVisible(frame, animated: true)
-//            }
-//        }
-    
-//    @objc func keyboardWillShow(_ notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            self.scrollView.contentInset.bottom = keyboardSize.height
-//            self.scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(_ notification: NSNotification) {
-//        self.scrollView.contentInset = .zero
-//        self.scrollView.verticalScrollIndicatorInsets = .zero
-//    }
