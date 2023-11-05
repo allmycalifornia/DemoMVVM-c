@@ -12,6 +12,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     var viewModel: AuthViewModel!
     var coordinator: AppCoordinator?
     
+    // MARK: задаём типы данных для составляющих элементов
     private let notification = NotificationCenter.default
     private let contentView = UIView()
     private let logoImageView = UIImageView()
@@ -27,6 +28,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     private let letRegisterButton = UIButton()
     private let noAccountLabel = UILabel()
     
+    // MARK: задаём параметры переключателя UISegmentControl
     private let segmentedControl: UISegmentedControl = {
             let segmentedControl = UISegmentedControl(items: ["Телефон", "Документ"])
             segmentedControl.selectedSegmentIndex = 0
@@ -58,20 +60,24 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }()
 
 
-
+    // MARK: life cycle - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        // MARK: ViewModel
         viewModel = AuthViewModel()
         viewModel.coordinator = coordinator
+        showPhoneTextField()
         
         phoneTextField.delegate = self
         passwordTextField.delegate = self
         
+        // MARK: методы NotificationCenter для открытия и скрытия клавитатуры
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        // MARK: добавляем элементы на экран
         view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -127,10 +133,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             make.height.equalTo(40)
         }
         
-        showPhoneTextField()
-
-        
-        // Phone TextField
+        //MARK: Phone TextField
         phoneTextField.attributedPlaceholder = NSAttributedString(
             string: "Номер телефона",
             attributes: [
@@ -156,7 +159,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        // Document Number TextField
+        //MARK: Document Number TextField
         documentNumberTextField.attributedPlaceholder = NSAttributedString(
             string: "Номер документа",
             attributes: [
@@ -182,7 +185,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             make.leading.trailing.equalToSuperview().inset(20)
         }
 
-        // Password TextField
+        //MARK: Password TextField
         let passwordToggle = PasswordToggleButton(passwordTextField: passwordTextField)
         passwordTextField.attributedPlaceholder = NSAttributedString(
             string: "Пароль",
@@ -298,14 +301,14 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             make.trailing.equalTo(view.snp.centerX).offset(-5)
         }
 
-        // Добавим наблюдателей для изменения текстовых полей
+        //MARK: наблюдатели для изменения текстовых полей
         phoneTextField.addTarget(self, action: #selector(phoneTextFieldDidChange), for: .editingChanged)
         documentNumberTextField.addTarget(self, action: #selector(documentNumberTextFieldDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange), for: .editingChanged)
     }
 
+    //MARK: Проверка валидности номера телефона
     @objc func phoneTextFieldDidChange() {
-        // Проверка валидности номера телефона
         let phoneNumber = phoneTextField.text ?? ""
         let isPhoneValid = phoneNumber.count == 12 && phoneNumber.hasPrefix("+")
 
@@ -323,8 +326,8 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         updateForwardButton()
     }
 
+    //MARK: Проверка валидности номера документа
     @objc func documentNumberTextFieldDidChange() {
-        // Проверка валидности номера документа
         let documentNumber = documentNumberTextField.text ?? ""
         let isDocumentValid = documentNumber.count == 10
 
@@ -342,8 +345,8 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         updateForwardButton()
     }
 
+    //MARK: Проверка валидности пароля
     @objc func passwordTextFieldDidChange() {
-        // Проверка валидности пароля
         let password = passwordTextField.text ?? ""
         let isPasswordValid = (6...20).contains(password.count)
 
@@ -361,6 +364,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         updateForwardButton()
     }
 
+    //MARK: Проверка и обновление кнопки "Вперед"
     func updateForwardButton() {
         // Проверка валидности номера телефона, номера документа и пароля
         let phoneNumber = phoneTextField.text ?? ""
@@ -384,7 +388,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-        // проверка введенных данных авторизации
+        //MARK: проверка введенных данных авторизации
         @objc func forwardButtonTapped() {
             let phoneNumber = phoneTextField.text ?? ""
             let documentNumber = documentNumberTextField.text ?? ""
@@ -414,7 +418,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
     
     
-        // метод показа клавиатуры и подъёма экрана наверх
+        //MARK: метод показа клавиатуры и подъёма экрана наверх
         @objc func keyboardWillShow(notification: NSNotification) {
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 let buttonFrameInWindow = forwardButton.convert(forwardButton.bounds, to: nil)
