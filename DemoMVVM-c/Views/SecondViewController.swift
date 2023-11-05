@@ -19,7 +19,9 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     private let phoneTextField = UITextField()
     private let documentNumberTextField = UITextField()
     private let passwordTextField = UITextField()
-    private let warningLabel = UILabel()
+    private let warningPasswordLabel = UILabel()
+    private let warningPhoneLabel = UILabel()
+    private let warningDocumentLabel = UILabel()
     private let forgotPasswordButton = UIButton()
     private let forwardButton = UIButton()
     private let letRegisterButton = UIButton()
@@ -100,12 +102,21 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = 16
         
-        let clearButton = UIButton(type: .custom)
-        clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        clearButton.tintColor = .gray
-        clearButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24) // Размер кнопки
-        clearButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
-        clearButton.addTarget(self, action: #selector(clearPhoneTextField), for: .touchUpInside)
+        // кнопка стирания введённого номера телефона
+        let clearPhoneNumberButton = UIButton(type: .custom)
+        clearPhoneNumberButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        clearPhoneNumberButton.tintColor = .gray
+        clearPhoneNumberButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24) // Размер кнопки
+        clearPhoneNumberButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
+        clearPhoneNumberButton.addTarget(self, action: #selector(clearPhoneTextField), for: .touchUpInside)
+        
+        // кнопка стирания введённого номера документа
+        let clearDocumentNumberButton = UIButton(type: .custom)
+        clearDocumentNumberButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        clearDocumentNumberButton.tintColor = .gray
+        clearDocumentNumberButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24) // Размер кнопки
+        clearDocumentNumberButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
+        clearDocumentNumberButton.addTarget(self, action: #selector(clearDocumentNumberTextField), for: .touchUpInside)
         
         // Добавляем UISegmentedControl
         contentView.addSubview(segmentedControl)
@@ -137,7 +148,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             .foregroundColor: UIColor.black, // Цвет текста
             .paragraphStyle: paragraphStyle
         ]
-        phoneTextField.rightView = clearButton
+        phoneTextField.rightView = clearPhoneNumberButton
         phoneTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
         contentView.addSubview(phoneTextField)
         phoneTextField.snp.makeConstraints { make in
@@ -163,7 +174,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             .foregroundColor: UIColor.black, // Цвет текста
             .paragraphStyle: paragraphStyle
         ]
-        documentNumberTextField.rightView = clearButton
+        documentNumberTextField.rightView = clearDocumentNumberButton
         documentNumberTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
         contentView.addSubview(documentNumberTextField)
         documentNumberTextField.snp.makeConstraints { make in
@@ -194,18 +205,40 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         ]
         contentView.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(phoneTextField.snp.bottom).offset(20)
+            make.top.equalTo(phoneTextField.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
         }
 
-        // Warning Label
-        warningLabel.textColor = .red
-        warningLabel.textAlignment = .left
-        warningLabel.font = UIFont.systemFont(ofSize: 13)
-        warningLabel.numberOfLines = 0
-        contentView.addSubview(warningLabel)
-        warningLabel.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(10)
+        // Warning Password Label
+        warningPasswordLabel.textColor = .red
+        warningPasswordLabel.textAlignment = .left
+        warningPasswordLabel.font = UIFont.systemFont(ofSize: 13)
+        warningPasswordLabel.numberOfLines = 0
+        contentView.addSubview(warningPasswordLabel)
+        warningPasswordLabel.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        // Warning Phone Label
+        warningPhoneLabel.textColor = .red
+        warningPhoneLabel.textAlignment = .left
+        warningPhoneLabel.font = UIFont.systemFont(ofSize: 13)
+        warningPhoneLabel.numberOfLines = 0
+        contentView.addSubview(warningPhoneLabel)
+        warningPhoneLabel.snp.makeConstraints { make in
+            make.top.equalTo(phoneTextField.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        // Warning Document Label
+        warningDocumentLabel.textColor = .red
+        warningDocumentLabel.textAlignment = .left
+        warningDocumentLabel.font = UIFont.systemFont(ofSize: 13)
+        warningDocumentLabel.numberOfLines = 0
+        contentView.addSubview(warningDocumentLabel)
+        warningDocumentLabel.snp.makeConstraints { make in
+            make.top.equalTo(warningPhoneLabel.snp.bottom)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -220,7 +253,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
         contentView.addSubview(forgotPasswordButton)
         forgotPasswordButton.snp.makeConstraints { make in
-            make.top.equalTo(warningLabel.snp.bottom).offset(10)
+            make.top.equalTo(warningPasswordLabel.snp.bottom).offset(10)
             make.trailing.equalToSuperview().offset(-20)
         }
 
@@ -266,37 +299,82 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
 
         // Добавим наблюдателей для изменения текстовых полей
-        phoneTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        }
+        phoneTextField.addTarget(self, action: #selector(phoneTextFieldDidChange), for: .editingChanged)
+        documentNumberTextField.addTarget(self, action: #selector(documentNumberTextFieldDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange), for: .editingChanged)
+    }
 
-    @objc func textFieldDidChange() {
+    @objc func phoneTextFieldDidChange() {
         // Проверка валидности номера телефона
         let phoneNumber = phoneTextField.text ?? ""
         let isPhoneValid = phoneNumber.count == 12 && phoneNumber.hasPrefix("+")
-        
-        // Проверка валидности пароля
-        let password = passwordTextField.text ?? ""
-        let isPasswordValid = (6...20).contains(password.count)
-        
-        // Определение сообщений об ошибках
+
+        // Определение сообщения об ошибке
         var phoneError = ""
-        var passwordError = ""
         
         if !isPhoneValid {
             phoneError = "Номер телефона должен содержать 11 цифр"
         }
         
+        // Отображение сообщения об ошибке
+        warningPhoneLabel.text = phoneError
+
+        // Проверка и обновление кнопки "Вперед"
+        updateForwardButton()
+    }
+
+    @objc func documentNumberTextFieldDidChange() {
+        // Проверка валидности номера документа
+        let documentNumber = documentNumberTextField.text ?? ""
+        let isDocumentValid = documentNumber.count == 10
+
+        // Определение сообщения об ошибке
+        var documentError = ""
+        
+        if !isDocumentValid {
+            documentError = "Номер документа должен содержать 10 цифр"
+        }
+        
+        // Отображение сообщения об ошибке
+        warningDocumentLabel.text = documentError
+
+        // Проверка и обновление кнопки "Вперед"
+        updateForwardButton()
+    }
+
+    @objc func passwordTextFieldDidChange() {
+        // Проверка валидности пароля
+        let password = passwordTextField.text ?? ""
+        let isPasswordValid = (6...20).contains(password.count)
+
+        // Определение сообщения об ошибке
+        var passwordError = ""
+        
         if !isPasswordValid {
             passwordError = "Пароль должен содержать от 6 до 20 символов"
         }
         
-        // Отображение сообщений об ошибках
-        warningLabel.text = phoneError + "\n" + passwordError
+        // Отображение сообщения об ошибке
+        warningPasswordLabel.text = passwordError
+
+        // Проверка и обновление кнопки "Вперед"
+        updateForwardButton()
+    }
+
+    func updateForwardButton() {
+        // Проверка валидности номера телефона, номера документа и пароля
+        let phoneNumber = phoneTextField.text ?? ""
+        let isPhoneValid = phoneNumber.count == 12 && phoneNumber.hasPrefix("+")
         
-        // Включение/выключение кнопки "Вперед" и изменение цвета
-        forwardButton.isEnabled = isPhoneValid && isPasswordValid
+        let documentNumber = documentNumberTextField.text ?? ""
+        let isDocumentValid = documentNumber.count == 10
         
+        let password = passwordTextField.text ?? ""
+        let isPasswordValid = (6...20).contains(password.count)
+        
+        // Проверка и обновление кнопки "Вперед"
+        forwardButton.isEnabled = (isPhoneValid || isDocumentValid) && isPasswordValid
+
         if forwardButton.isEnabled {
             forwardButton.backgroundColor = .systemYellow
             forwardButton.setTitleColor(.white, for: .normal)
@@ -304,20 +382,25 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             forwardButton.backgroundColor = .systemYellow.withAlphaComponent(0.5)
             forwardButton.setTitleColor(.black, for: .normal)
         }
-        
     }
 
         // проверка введенных данных авторизации
         @objc func forwardButtonTapped() {
             let phoneNumber = phoneTextField.text ?? ""
+            let documentNumber = documentNumberTextField.text ?? ""
             let password = passwordTextField.text ?? ""
-            let message = viewModel.authenticateUser(phoneNumber: phoneNumber, password: password, users: users)
-            warningLabel.text = message
+            let message = viewModel.authenticateUser(phoneNumber: phoneNumber, documentNumber: documentNumber, password: password, users: users)
+            warningPasswordLabel.text = message
         }
     
-        // Действие для кнопки, чтобы она стирала введенные данные
+        // Действие для кнопки xmark, чтобы она стирала введенные данные
         @objc func clearPhoneTextField() {
         phoneTextField.text = "" // Очищаем текстовое поле
+        }
+    
+        // Действие для кнопки xmark, чтобы она стирала введенные данные
+        @objc func clearDocumentNumberTextField() {
+        documentNumberTextField.text = "" // Очищаем текстовое поле
         }
     
         // Действие кнопки "Забыли пароль?"
@@ -366,11 +449,16 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             func showPhoneTextField() {
                 phoneTextField.isHidden = false
                 documentNumberTextField.isHidden = true
+                documentNumberTextField.text = ""
+                warningDocumentLabel.text = ""
+                
             }
 
             func showDocumentNumberTextField() {
                 phoneTextField.isHidden = true
                 documentNumberTextField.isHidden = false
+                phoneTextField.text = ""
+                warningPhoneLabel.text = ""
             }
 
 }
