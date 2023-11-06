@@ -20,7 +20,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     private let phoneTextField = UITextField()
     private let documentNumberTextField = UITextField()
     private let passwordTextField = UITextField()
-    private let warningPasswordLabel = UILabel()
+    let warningPasswordLabel = UILabel()
     private let warningPhoneLabel = UILabel()
     private let warningDocumentLabel = UILabel()
     private let forgotPasswordButton = UIButton()
@@ -208,7 +208,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         ]
         contentView.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(phoneTextField.snp.bottom).offset(30)
+            make.top.equalTo(phoneTextField.snp.bottom).offset(25)
             make.leading.trailing.equalToSuperview().inset(20)
         }
 
@@ -241,7 +241,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         warningDocumentLabel.numberOfLines = 0
         contentView.addSubview(warningDocumentLabel)
         warningDocumentLabel.snp.makeConstraints { make in
-            make.top.equalTo(warningPhoneLabel.snp.bottom)
+            make.top.equalTo(documentNumberTextField.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -256,7 +256,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
         contentView.addSubview(forgotPasswordButton)
         forgotPasswordButton.snp.makeConstraints { make in
-            make.top.equalTo(warningPasswordLabel.snp.bottom).offset(10)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
 
@@ -269,7 +269,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         forwardButton.addTarget(self, action: #selector(forwardButtonTapped), for: .touchUpInside)
         contentView.addSubview(forwardButton)
         forwardButton.snp.makeConstraints { make in
-            make.top.equalTo(forgotPasswordButton.snp.bottom).offset(20)
+            make.top.equalTo(forgotPasswordButton.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(60)
