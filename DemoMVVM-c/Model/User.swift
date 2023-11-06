@@ -14,8 +14,8 @@ struct User {
 }
 
 let users: [User] = [
-    User(phoneNumber: "+79991234567", documentNumber: "1234567890", password: "abc123"),
-    User(phoneNumber: "+79991111111", documentNumber: "1122333444", password: "abc123")
+    User(phoneNumber: "+79991234567", documentNumber: "12 34 567890", password: "abc123"),
+    User(phoneNumber: "+79991111111", documentNumber: "11 22 333444", password: "abc123")
 ]
 
 

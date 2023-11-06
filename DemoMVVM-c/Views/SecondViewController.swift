@@ -69,6 +69,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         viewModel = AuthViewModel()
         viewModel.coordinator = coordinator
         showPhoneTextField()
+        documentNumberTextField.formatAsDocumentNumber() // ввод номера документа по маске
         
         phoneTextField.delegate = self
         passwordTextField.delegate = self
@@ -329,7 +330,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     //MARK: Проверка валидности номера документа
     @objc func documentNumberTextFieldDidChange() {
         let documentNumber = documentNumberTextField.text ?? ""
-        let isDocumentValid = documentNumber.count == 10
+        let isDocumentValid = documentNumber.count == 12
 
         // Определение сообщения об ошибке
         var documentError = ""
@@ -371,7 +372,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         let isPhoneValid = phoneNumber.count == 12 && phoneNumber.hasPrefix("+")
         
         let documentNumber = documentNumberTextField.text ?? ""
-        let isDocumentValid = documentNumber.count == 10
+        let isDocumentValid = documentNumber.count == 12
         
         let password = passwordTextField.text ?? ""
         let isPasswordValid = (6...20).contains(password.count)
