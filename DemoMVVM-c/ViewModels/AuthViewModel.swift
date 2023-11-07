@@ -18,12 +18,12 @@ class AuthViewModel {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                             self.coordinator?.showThirdScreen()
                                         }
-                        return "Успешная авторизация. Сейчас будет выполнен вход"
+                        return TextLabels.LoginVC.autorizationSuccess
                     } else {
-                        return "Неверный пароль"
+                        return TextLabels.LoginVC.wrongPassword
                     }
                 } else {
-                    return "Данный пользователь не найден"
+                    return TextLabels.LoginVC.wrongPhone
         }
     }
 }

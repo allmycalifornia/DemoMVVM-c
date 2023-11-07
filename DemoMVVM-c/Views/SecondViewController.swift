@@ -20,7 +20,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     private let phoneTextField = UITextField()
     private let documentNumberTextField = UITextField()
     private let passwordTextField = UITextField()
-    let warningPasswordLabel = UILabel()
+    private let warningPasswordLabel = UILabel()
     private let warningPhoneLabel = UILabel()
     private let warningDocumentLabel = UILabel()
     private let forgotPasswordButton = UIButton()
@@ -30,31 +30,22 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: задаём параметры переключателя UISegmentControl
     private let segmentedControl: UISegmentedControl = {
-            let segmentedControl = UISegmentedControl(items: ["Телефон", "Документ"])
+        let segmentedControl = UISegmentedControl(items: [TextLabels.LoginVC.phone, TextLabels.LoginVC.document])
             segmentedControl.selectedSegmentIndex = 0
-
             // Устанавливаем стиль и цвета для нормального состояния
             segmentedControl.setTitleTextAttributes([
-                .font: UIFont.systemFont(ofSize: 18),
-                .foregroundColor: UIColor.black
+                .font: textAttributes.segmentControlTextFont,
+                .foregroundColor: textAttributes.segmentControlColorNormal
             ], for: .normal)
-
             // Устанавливаем стиль и цвета для выбранного состояния
             segmentedControl.setTitleTextAttributes([
-                .font: UIFont.systemFont(ofSize: 18),
-                .foregroundColor: UIColor.systemBlue
+                .font: textAttributes.segmentControlTextFont,
+                .foregroundColor: textAttributes.segmentControlColorSelected
             ], for: .selected)
-
-            // Устанавливаем цвет подчеркивания для выбранного сегмента
-            segmentedControl.setTitleTextAttributes([
-                .foregroundColor: UIColor.systemYellow
-            ], for: .selected)
-
             // Убираем фон
             segmentedControl.backgroundColor = .clear
             // Убираем обводку сегментов
             segmentedControl.layer.borderWidth = 0
-
             segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
             return segmentedControl
         }()
@@ -96,128 +87,60 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
 
         // Welcome Label
-        welcomeLabel.text = "Привет!\nВойдите в Бэтта-банк!"
+        welcomeLabel.text = TextLabels.LoginVC.welcomeText
         welcomeLabel.textAlignment = .left
-        welcomeLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        welcomeLabel.font = textAttributes.welcomeLabel
         welcomeLabel.numberOfLines = 0
         contentView.addSubview(welcomeLabel)
         welcomeLabel.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
         }
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = 16
-        
-        // кнопка стирания введённого номера телефона
-        let clearPhoneNumberButton = UIButton(type: .custom)
-        clearPhoneNumberButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        clearPhoneNumberButton.tintColor = .gray
-        clearPhoneNumberButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24) // Размер кнопки
-        clearPhoneNumberButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
-        clearPhoneNumberButton.addTarget(self, action: #selector(clearPhoneTextField), for: .touchUpInside)
-        
-        // кнопка стирания введённого номера документа
-        let clearDocumentNumberButton = UIButton(type: .custom)
-        clearDocumentNumberButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        clearDocumentNumberButton.tintColor = .gray
-        clearDocumentNumberButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24) // Размер кнопки
-        clearDocumentNumberButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
-        clearDocumentNumberButton.addTarget(self, action: #selector(clearDocumentNumberTextField), for: .touchUpInside)
         
         // Добавляем UISegmentedControl
         contentView.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints { make in
             make.top.equalTo(welcomeLabel.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(40)
         }
         
+        //MARK: TextFileds attributes
+        let clearPhoneNumberButton = createClearButton(for: self, action: #selector(clearPhoneTextField))
+        let clearDocumentNumberButton = createClearButton(for: self, action: #selector(clearDocumentNumberTextField))
+        
         //MARK: Phone TextField
-        phoneTextField.attributedPlaceholder = NSAttributedString(
-            string: "Номер телефона",
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 18),
-                .paragraphStyle: paragraphStyle,
-                .foregroundColor: UIColor.gray
-            ]
-        )
-        phoneTextField.backgroundColor = .systemGray6
-        phoneTextField.borderStyle = .roundedRect
+        configureTextField(phoneTextField, placeholder: TextLabels.LoginVC.phoneNumber, clearButton: clearPhoneNumberButton)
         phoneTextField.keyboardType = .phonePad
-        phoneTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        phoneTextField.defaultTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 18, weight: .regular),
-            .foregroundColor: UIColor.black, // Цвет текста
-            .paragraphStyle: paragraphStyle
-        ]
-        phoneTextField.rightView = clearPhoneNumberButton
-        phoneTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
-        contentView.addSubview(phoneTextField)
-        phoneTextField.snp.makeConstraints { make in
-            make.top.equalTo(segmentedControl.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
-        }
+                contentView.addSubview(phoneTextField)
+                phoneTextField.snp.makeConstraints { make in
+                    make.top.equalTo(segmentedControl.snp.bottom).offset(20)
+                    make.leading.trailing.equalToSuperview().inset(20)
+                }
         
         //MARK: Document Number TextField
-        documentNumberTextField.attributedPlaceholder = NSAttributedString(
-            string: "Номер документа",
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 18),
-                .paragraphStyle: paragraphStyle,
-                .foregroundColor: UIColor.gray
-            ]
-        )
-        documentNumberTextField.backgroundColor = .systemGray6
-        documentNumberTextField.borderStyle = .roundedRect
+        configureTextField(documentNumberTextField, placeholder: TextLabels.LoginVC.documentNumber, clearButton: clearDocumentNumberButton)
         documentNumberTextField.keyboardType = .phonePad
-        documentNumberTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        documentNumberTextField.defaultTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 18, weight: .regular),
-            .foregroundColor: UIColor.black, // Цвет текста
-            .paragraphStyle: paragraphStyle
-        ]
-        documentNumberTextField.rightView = clearDocumentNumberButton
-        documentNumberTextField.rightViewMode = .whileEditing // Отображать кнопку только при редактировании
         contentView.addSubview(documentNumberTextField)
-        documentNumberTextField.snp.makeConstraints { make in
-            make.top.equalTo(segmentedControl.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
-        }
-
+                documentNumberTextField.snp.makeConstraints { make in
+                    make.top.equalTo(segmentedControl.snp.bottom).offset(20)
+                    make.leading.trailing.equalToSuperview().inset(20)
+                }
+    
         //MARK: Password TextField
-        let passwordToggle = PasswordToggleButton(passwordTextField: passwordTextField)
-        passwordTextField.attributedPlaceholder = NSAttributedString(
-            string: "Пароль",
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 18), // Жирный шрифт и размер
-                .paragraphStyle: paragraphStyle,
-                .foregroundColor: UIColor.gray
-            ]
-        )
-        passwordTextField.backgroundColor = .systemGray6
-        passwordTextField.borderStyle = .roundedRect
-        passwordTextField.isSecureTextEntry = true
-        passwordTextField.rightView = passwordToggle
-        passwordTextField.rightViewMode = .always
-        passwordTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        passwordTextField.defaultTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 18, weight: .regular),
-            .foregroundColor: UIColor.black, // Цвет текста
-            .paragraphStyle: paragraphStyle
-        ]
+        configureTextField(passwordTextField, placeholder: TextLabels.LoginVC.password, isSecure: true)
         contentView.addSubview(passwordTextField)
-        passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(phoneTextField.snp.bottom).offset(25)
-            make.leading.trailing.equalToSuperview().inset(20)
-        }
+                passwordTextField.snp.makeConstraints { make in
+                    make.top.equalTo(phoneTextField.snp.bottom).offset(25)
+                    make.leading.trailing.equalToSuperview().inset(20)
+                }
+                
 
         // Warning Password Label
-        warningPasswordLabel.textColor = .red
-        warningPasswordLabel.textAlignment = .left
-        warningPasswordLabel.font = UIFont.systemFont(ofSize: 13)
-        warningPasswordLabel.numberOfLines = 0
+        warningPasswordLabel.textColor = textAttributes.warningTextColor
+        warningPasswordLabel.textAlignment = textAttributes.warningTextAligment
+        warningPasswordLabel.font = textAttributes.warningLabels
         contentView.addSubview(warningPasswordLabel)
         warningPasswordLabel.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(5)
@@ -225,10 +148,9 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
         
         // Warning Phone Label
-        warningPhoneLabel.textColor = .red
-        warningPhoneLabel.textAlignment = .left
-        warningPhoneLabel.font = UIFont.systemFont(ofSize: 13)
-        warningPhoneLabel.numberOfLines = 0
+        warningPhoneLabel.textColor = textAttributes.warningTextColor
+        warningPhoneLabel.textAlignment = textAttributes.warningTextAligment
+        warningPhoneLabel.font = textAttributes.warningLabels
         contentView.addSubview(warningPhoneLabel)
         warningPhoneLabel.snp.makeConstraints { make in
             make.top.equalTo(phoneTextField.snp.bottom).offset(5)
@@ -236,10 +158,9 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
         
         // Warning Document Label
-        warningDocumentLabel.textColor = .red
-        warningDocumentLabel.textAlignment = .left
-        warningDocumentLabel.font = UIFont.systemFont(ofSize: 13)
-        warningDocumentLabel.numberOfLines = 0
+        warningDocumentLabel.textColor = textAttributes.warningTextColor
+        warningDocumentLabel.textAlignment = textAttributes.warningTextAligment
+        warningDocumentLabel.font = textAttributes.warningLabels
         contentView.addSubview(warningDocumentLabel)
         warningDocumentLabel.snp.makeConstraints { make in
             make.top.equalTo(documentNumberTextField.snp.bottom).offset(5)
@@ -247,8 +168,8 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
         
         // forgot password button
-        forgotPasswordButton.setTitle("Забыли пароль?", for: .normal)
-        let buttonText = "Забыли пароль?"
+        forgotPasswordButton.setTitle(TextLabels.LoginVC.forgotPassword, for: .normal)
+        let buttonText = TextLabels.LoginVC.forgotPassword
         let attributedText = NSMutableAttributedString(string: buttonText)
         attributedText.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, buttonText.count))
         forgotPasswordButton.setAttributedTitle(attributedText, for: .normal)
@@ -262,7 +183,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
 
         // Forward Button
-        forwardButton.setTitle("Вперед", for: .normal)
+        forwardButton.setTitle(TextLabels.LoginVC.next, for: .normal)
         forwardButton.setTitleColor(.black, for: .normal)
         forwardButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         forwardButton.layer.cornerRadius = 8
@@ -277,8 +198,8 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
         
         // LetRegisterButton
-        letRegisterButton.setTitle("Зарегистрируйтесь", for: .normal)
-        let registerButtonText = "Зарегистрируйтесь"
+        letRegisterButton.setTitle(TextLabels.LoginVC.register, for: .normal)
+        let registerButtonText = TextLabels.LoginVC.register
         let registerAttributedText = NSMutableAttributedString(string: registerButtonText)
         registerAttributedText.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, registerButtonText.count))
         letRegisterButton.setAttributedTitle(registerAttributedText, for: .normal)
@@ -292,7 +213,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         }
         
         // noAccount Label
-        noAccountLabel.text = "У вас нет аккаунта?"
+        noAccountLabel.text = TextLabels.LoginVC.noAccount
         noAccountLabel.textColor = .black
         noAccountLabel.textAlignment = .right
         noAccountLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -317,7 +238,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         var phoneError = ""
         
         if !isPhoneValid {
-            phoneError = "Номер телефона должен содержать 11 цифр"
+            phoneError = TextLabels.LoginVC.phoneError
         }
         
         // Отображение сообщения об ошибке
@@ -336,7 +257,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         var documentError = ""
         
         if !isDocumentValid {
-            documentError = "Номер документа должен содержать 10 цифр"
+            documentError = TextLabels.LoginVC.documentError
         }
         
         // Отображение сообщения об ошибке
@@ -355,7 +276,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         var passwordError = ""
         
         if !isPasswordValid {
-            passwordError = "Пароль должен содержать от 6 до 20 символов"
+            passwordError = TextLabels.LoginVC.passwordError
         }
         
         // Отображение сообщения об ошибке
