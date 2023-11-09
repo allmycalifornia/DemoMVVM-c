@@ -45,6 +45,9 @@ func configureTextField(_ textField: UITextField, placeholder: String, clearButt
     }
     
     if isSecure {
+        let passwordToggle = PasswordToggleButton(passwordTextField: textField)
         textField.isSecureTextEntry = true
+        textField.rightView = passwordToggle
+        textField.rightViewMode = .always
     }
 }

@@ -135,6 +135,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
                     make.top.equalTo(phoneTextField.snp.bottom).offset(25)
                     make.leading.trailing.equalToSuperview().inset(20)
                 }
+        passwordTextField.layoutIfNeeded()
                 
 
         // Warning Password Label
